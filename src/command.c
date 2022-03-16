@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/11 19:27:27 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/15 01:12:34 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,35 @@
 
 static char	**get_path_var(char *envp[]);
 static char	*get_pathname(char **path, char *cmd);
-static void	clear_matrix(char ***m);
 
 t_command	get_command(char *arg, char *envp[])
 {
 	t_command	command;
 	char		**paths;
-	int			i;
 
+	command.status = 0;
 	command.param = ft_partial_split(arg, ' ', '\'');
 	if (command.param == NULL)
 	{
-		command.param_count = 0;
+		command.status = 1;
 		print_coded_error("pipex", "get_command", EINVAL);
 	}
-	i = 0;
-	while (command.param[i])
-		i++;
-	command.param_count = i;
 	paths = get_path_var(envp);
-	if (path_verifier(&command, &paths))
+	command.status = path_verifier(paths);
+	if (command.status)
 		return (command);
 	command.pathname = get_pathname(paths, command.param[0]);
-	clear_matrix(&paths);
-	if (pathname_verifier(&command))
-		return (command);
+	ft_free_char_matrix(&paths);
+	command.status = pathname_verifier(command);
 	return (command);
+}
+
+void	free_command(t_command *cmd)
+{
+	if (cmd->param)
+		ft_free_char_matrix(&cmd->param);
+	if (cmd->pathname)
+		ft_null_free((void *)(&cmd->pathname));
 }
 
 static char	**get_path_var(char *envp[])
@@ -75,22 +78,10 @@ static char	*get_pathname(char **path, char *cmd)
 		temp = ft_strjoin(path[i], "/");
 		pathname = ft_strjoin(temp, cmd);
 		ft_null_free((void *)(&temp));
-		if (!access(pathname, F_OK))
+		if (!access(pathname, X_OK))
 			break ;
 		ft_null_free((void *)(&pathname));
 		i++;
 	}
 	return (pathname);
-}
-
-static void	clear_matrix(char ***m)
-{
-	size_t	i;
-
-	if (!*m)
-		return ;
-	i = 0;
-	while ((*m)[i])
-		i++;
-	ft_free_matrix((void *)(m), i);
 }
