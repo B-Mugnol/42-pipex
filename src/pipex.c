@@ -6,17 +6,16 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/17 20:18:15 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/17 20:31:16 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static t_fd_pair	io_file_opener(char *infilename, char *outfilename);
-static t_command	*fetch_commands(int argc, char *argv[], char *envp[],
-						t_fd_pair iof);
+static t_command	*fetch_commands(char *argv[], char *envp[],	t_fd_pair iof);
 static void			exec_cmd(int r_fd, int w_fd, t_command *cmd, char *envp[]);
-void				pipex(t_fd_pair iof, t_command *cmd, char *envp[]);
+static void			pipex(t_fd_pair iof, t_command *cmd, char *envp[]);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -28,7 +27,7 @@ int	main(int argc, char *argv[], char *envp[])
 	iof = io_file_opener(argv[1], argv[argc - 1]);
 	if (iof.status)
 		return (iof.status);
-	cmd = fetch_commands(argc, argv, envp, iof);
+	cmd = fetch_commands(argv, envp, iof);
 	pipex(iof, cmd, envp);
 	free_command(&cmd[0]);
 	free_command(&cmd[1]);
@@ -63,17 +62,14 @@ static t_fd_pair	io_file_opener(char *infilename, char *outfilename)
 
 static void	exec_cmd(int r_fd, int w_fd, t_command *cmd, char *envp[])
 {
-	int	exec_status;
-
-	exec_status = 0;
 	dup2(r_fd, STDIN_FILENO);
 	dup2(w_fd, STDOUT_FILENO);
 	if (cmd->status == 0)
-		exec_status = execve(cmd->pathname, cmd->param, envp);
+		execve(cmd->pathname, cmd->param, envp);
 	perror("pipex: execve");
 }
 
-static t_command	*fetch_commands(int argc, char *argv[], char *envp[],
+static t_command	*fetch_commands(char *argv[], char *envp[],
 						t_fd_pair iof)
 {
 	t_command	*cmd;
@@ -96,7 +92,7 @@ static t_command	*fetch_commands(int argc, char *argv[], char *envp[],
 	return (cmd);
 }
 
-void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
+static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 {
 	t_fd_pair	channel;
 	pid_t		pid;
