@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/17 20:31:16 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/17 20:47:09 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,7 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 
 	channel.status = pipe(channel.fd);
 	if (channel.status)
-	{
-		perror("pipex: pipe");
-		exit(EXIT_FAILURE);
-	}
+		print_error_exit("pipex: pipe");
 	pid = fork();
 	if (pid == 0)
 	{
@@ -111,7 +108,8 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 	}
 	else
 	{
-		waitpid(pid, NULL, 0);
+		if (waitpid(pid, NULL, 0) == -1)
+			print_error_exit("pipex: waitpid");
 		close(channel.fd[1]);
 		exec_cmd(channel.fd[0], iof.fd[1], &cmd[1], envp);
 	}
