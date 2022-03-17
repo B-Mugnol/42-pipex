@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 17:19:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/16 19:30:55 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/17 20:18:27 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,4 @@ void	print_custom_error(char *program, char *err_location, char *err_msg)
 		ft_putstr_fd(err_msg, 2);
 	}
 	ft_putstr_fd("\n", 2);
-}
-
-void	print_generic_error(char *program, char *err_location)
-{
-	if (program)
-	{
-		ft_putstr_fd(program, 2);
-		ft_putstr_fd(": ", 2);
-	}
-	if (err_location)
-	{
-		ft_putstr_fd(err_location, 2);
-		ft_putstr_fd(": ", 2);
-	}
-	perror(NULL);
 }
