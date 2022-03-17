@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/17 20:47:09 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/17 21:04:17 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 	if (channel.status)
 		print_error_exit("pipex: pipe");
 	pid = fork();
+	if (pid == -1)
+		return ;
 	if (pid == 0)
 	{
 		close(channel.fd[0]);
