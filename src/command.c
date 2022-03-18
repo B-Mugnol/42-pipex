@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/15 01:12:34 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/18 19:22:15 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_command	get_command(char *arg, char *envp[])
 	t_command	command;
 	char		**paths;
 
-	command.status = 0;
 	command.param = ft_partial_split(arg, ' ', '\'');
 	if (command.param == NULL)
 	{
@@ -43,6 +42,21 @@ void	free_command(t_command *cmd)
 		ft_free_char_matrix(&cmd->param);
 	if (cmd->pathname)
 		ft_null_free((void *)(&cmd->pathname));
+}
+
+void	free_command_vector(int argc, t_command **cmd)
+{
+	int	i;
+
+	if (!*cmd)
+		return ;
+	i = 0;
+	while (i < argc)
+	{
+		free_command((*cmd + i));
+		i++;
+	}
+	ft_null_free((void *)(cmd));
 }
 
 static char	**get_path_var(char *envp[])
