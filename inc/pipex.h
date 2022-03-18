@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/17 21:16:41 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:26:00 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_fd_pair
 // command.c
 t_command	get_command(char *arg, char *envp[]);
 void		free_command(t_command *cmd);
+void		free_command_vector(int argc, t_command **cmd);
 
 // verifier.c
 int			param_verifier(const int argc);
