@@ -6,14 +6,14 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 17:04:56 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:09:04 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static t_fd_pair	io_file_opener(char *infilename, char *outfilename);
-static t_command	*fetch_commands(char *argv[], char *envp[],	t_fd_pair iof);
+// static t_command	*fetch_commands(char *argv[], char *envp[],	t_fd_pair iof);
 static void			exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[]);
 static void			pipex(t_fd_pair iof, t_command *cmd, char *envp[]);
 
@@ -60,27 +60,27 @@ static void	exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[])
 	}
 }
 
-static t_command	*fetch_commands(char *argv[], char *envp[],
-						t_fd_pair iof)
-{
-	t_command	*cmd;
-	int			status;
+// static t_command	*fetch_commands(char *argv[], char *envp[],
+// 						t_fd_pair iof)
+// {
+// 	t_command	*cmd;
+// 	int			status;
 
-	cmd = malloc(2 * sizeof (t_command));
-	cmd[0] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
-	cmd[1] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
-	if (iof.fd[0] != -1)
-		cmd[0] = get_command(argv[2], envp);
-	cmd[1] = get_command(argv[3], envp);
-	if (cmd[1].status)
-	{
-		status = cmd[1].status;
-		free_command_vector(2, &cmd);
-		close_fd_pair(iof);
-		exit(status);
-	}
-	return (cmd);
-}
+// 	cmd = malloc(2 * sizeof (t_command));
+// 	cmd[0] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
+// 	cmd[1] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
+// 	if (iof.fd[0] != -1)
+// 		cmd[0] = get_command(argv[2], envp);
+// 	cmd[1] = get_command(argv[3], envp);
+// 	if (cmd[1].status)
+// 	{
+// 		status = cmd[1].status;
+// 		free_command_vector(2, &cmd);
+// 		close_fd_pair(iof);
+// 		exit(status);
+// 	}
+// 	return (cmd);
+// }
 
 static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 {
@@ -107,16 +107,5 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 		close_if_valid_fd(iof.fd[0]);
 		if (iof.fd[1] != -1 && cmd[1].status == 0)
 			exec_cmd(channel.fd[0], iof.fd[1], cmd[1], envp);
-	}
-}
-
-static void	exec_cmd(int r_fd, int w_fd, t_command *cmd, char *envp[])
-{
-	dup2(r_fd, STDIN_FILENO);
-	dup2(w_fd, STDOUT_FILENO);
-	if (cmd->status == 0)
-	{
-		execve(cmd->pathname, cmd->param, envp);
-		perror("pipex: execve");
 	}
 }

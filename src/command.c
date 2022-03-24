@@ -6,16 +6,38 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 17:04:53 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:09:39 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	**get_path_var(char *envp[]);
-static char	*get_pathname(char **path, char *cmd);
+static t_command	get_command(char *arg, char *envp[]);
+static char			**get_path_var(char *envp[]);
+static char			*get_pathname(char **path, char *cmd);
 
-t_command	get_command(char *arg, char *envp[])
+t_command	*fetch_commands(char *argv[], char *envp[],	t_fd_pair iof)
+{
+	t_command	*cmd;
+	int			status;
+
+	cmd = malloc(2 * sizeof (t_command));
+	cmd[0] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
+	cmd[1] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
+	if (iof.fd[0] != -1)
+		cmd[0] = get_command(argv[2], envp);
+	cmd[1] = get_command(argv[3], envp);
+	if (cmd[1].status)
+	{
+		status = cmd[1].status;
+		free_command_vector(2, &cmd);
+		close_fd_pair(iof);
+		exit(status);
+	}
+	return (cmd);
+}
+
+static t_command	get_command(char *arg, char *envp[])
 {
 	t_command	command;
 	char		**paths;
