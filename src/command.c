@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/15 01:12:34 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 01:40:53 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_command	get_command(char *arg, char *envp[])
 	t_command	command;
 	char		**paths;
 
-	command.status = 0;
 	command.param = ft_partial_split(arg, ' ', '\'');
 	if (command.param == NULL)
 	{
@@ -35,14 +34,6 @@ t_command	get_command(char *arg, char *envp[])
 	ft_free_char_matrix(&paths);
 	command.status = pathname_verifier(command);
 	return (command);
-}
-
-void	free_command(t_command *cmd)
-{
-	if (cmd->param)
-		ft_free_char_matrix(&cmd->param);
-	if (cmd->pathname)
-		ft_null_free((void *)(&cmd->pathname));
 }
 
 static char	**get_path_var(char *envp[])
