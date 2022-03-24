@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 17:10:19 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:54:03 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_command
 typedef struct s_fd_pair
 {
 	int	fd[2];
-	int	status;
 }	t_fd_pair;
 
 // command.c
