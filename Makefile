@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/17 20:28:54 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/03/24 16:44:24 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS	:=	-Wall -Wextra -Werror
 
 # PIPEX
 SRC_DIR		:=	./src
-SRC_FILE	:=	pipex.c command.c error.c verifier.c
+SRC_FILE	:=	pipex.c command.c error.c verifier.c dismount.c
 SRC			:=	$(addprefix $(SRC_DIR)/, $(SRC_FILE))
 
 HEADER_FILE	:=	pipex.h define.h
