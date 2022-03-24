@@ -6,29 +6,31 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 17:21:00 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 18:39:32 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static t_fd_pair	io_file_opener(char *infilename, char *outfilename);
-static void			exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[]);
-static void			pipex(t_fd_pair iof, t_command *cmd, char *envp[]);
+static int			exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[]);
+static int			pipex(t_fd_pair iof, t_command *cmd, char *envp[]);
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_command	*cmd;
 	t_fd_pair	iof;
+	int			status;
 
+	status = EXIT_FAILURE;
 	if (param_verifier(argc))
-		return (EXIT_FAILURE);
+		return (status);
 	iof = io_file_opener(argv[1], argv[argc - 1]);
 	cmd = fetch_commands(argv, envp, iof);
-	pipex(iof, cmd, envp);
+	status = pipex(iof, cmd, envp);
 	free_command_vector(2, &cmd);
 	close_fd_pair(iof);
-	return (EXIT_FAILURE);
+	return (status);
 }
 
 static t_fd_pair	io_file_opener(char *infilename, char *outfilename)
@@ -46,7 +48,7 @@ static t_fd_pair	io_file_opener(char *infilename, char *outfilename)
 	return (f);
 }
 
-static void	exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[])
+static int	exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[])
 {
 	dup2(r_fd, STDIN_FILENO);
 	close_if_valid_fd(r_fd);
@@ -56,10 +58,13 @@ static void	exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[])
 	{
 		execve(cmd.pathname, cmd.param, envp);
 		perror("pipex: execve");
+		return (EXIT_FAILURE);
 	}
+	else
+		return (cmd.status);
 }
 
-static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
+static int	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 {
 	t_fd_pair	channel;
 	pid_t		pid;
@@ -68,13 +73,13 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 		print_error_exit("pipex: pipe");
 	pid = fork();
 	if (pid == -1)
-		return ;
+		print_error_exit("pipex: fork");
 	if (pid == 0)
 	{
 		close(channel.fd[0]);
 		close_if_valid_fd(iof.fd[1]);
-		if (iof.fd[0] != -1 && cmd[0].status == 0)
-			exec_cmd(iof.fd[0], channel.fd[1], cmd[0], envp);
+		if (iof.fd[0] != -1)
+			return (exec_cmd(iof.fd[0], channel.fd[1], cmd[0], envp));
 	}
 	else
 	{
@@ -82,7 +87,8 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 			print_error_exit("pipex: waitpid");
 		close(channel.fd[1]);
 		close_if_valid_fd(iof.fd[0]);
-		if (iof.fd[1] != -1 && cmd[1].status == 0)
-			exec_cmd(channel.fd[0], iof.fd[1], cmd[1], envp);
+		if (iof.fd[1] != -1)
+			return (exec_cmd(channel.fd[0], iof.fd[1], cmd[1], envp));
 	}
+	return (EXIT_FAILURE);
 }
