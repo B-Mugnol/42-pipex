@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/24 17:57:47 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/03/24 18:05:58 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ LIBFT_LIB_INC	:=	-L $(LIBFT_DIR) -lft
 INCLUDE		:=	$(H_INCLUDE) $(LIBFT_H_INC) $(LIBFT_LIB_INC)
 
 
-.PHONY: all norm clean fclean compare re
+.PHONY: all norm clean fclean re
 
 all: $(NAME)
 
@@ -67,12 +67,10 @@ norm:
 	@norminette $(SRC) $(HEADER) | grep "Error" | cat
 
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(OBJ_DIR)
 
-fclean:
+fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(RM) $(OBJ_DIR)
 	$(RM) $(NAME)
 
 re: fclean all
