@@ -6,14 +6,13 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 17:11:28 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:21:00 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static t_fd_pair	io_file_opener(char *infilename, char *outfilename);
-// static t_command	*fetch_commands(char *argv[], char *envp[],	t_fd_pair iof);
 static void			exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[]);
 static void			pipex(t_fd_pair iof, t_command *cmd, char *envp[]);
 
