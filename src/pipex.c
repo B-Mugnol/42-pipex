@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 02:36:17 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:04:56 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,16 @@ static void	pipex(t_fd_pair iof, t_command *cmd, char *envp[])
 		close_if_valid_fd(iof.fd[0]);
 		if (iof.fd[1] != -1 && cmd[1].status == 0)
 			exec_cmd(channel.fd[0], iof.fd[1], cmd[1], envp);
+	}
+}
+
+static void	exec_cmd(int r_fd, int w_fd, t_command *cmd, char *envp[])
+{
+	dup2(r_fd, STDIN_FILENO);
+	dup2(w_fd, STDOUT_FILENO);
+	if (cmd->status == 0)
+	{
+		execve(cmd->pathname, cmd->param, envp);
+		perror("pipex: execve");
 	}
 }
