@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/24 17:49:30 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/03/24 17:57:47 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,7 @@ H_INCLUDE	:=	$(foreach directory, $(HEADER_DIR), -I$(directory))
 # LIBFT
 LIBFT_DIR		:=	../libft
 
-# LIBFT_H_FILE	:=	libft.h
 LIBFT_H_DIR		:=	$(LIBFT_DIR)/inc
-# LIBFT_HEADER	:=	$(addprefix $(LIBFT_H_DIR)/, $(LIBFT_H_FILE))
 LIBFT_H_INC		:=	-I$(LIBFT_H_DIR)
 
 LIBFT_LIB		:=	$(LIBFT_DIR)/libft.a
