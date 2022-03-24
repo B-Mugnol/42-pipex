@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 18:39:32 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 18:52:23 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int			status;
 
 	status = EXIT_FAILURE;
-	if (param_verifier(argc))
+	if (param_verifier(argc) == EXIT_FAILURE)
 		return (status);
 	iof = io_file_opener(argv[1], argv[argc - 1]);
 	cmd = fetch_commands(argv, envp, iof);

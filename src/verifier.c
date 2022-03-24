@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:25:33 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/14 20:02:15 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 18:51:40 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	param_verifier(const int argc)
 	if (argc != 5)
 	{
 		print_coded_error("pipex", NULL, EINVAL);
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	path_verifier(char **paths)
@@ -27,9 +27,9 @@ int	path_verifier(char **paths)
 	if (paths == NULL)
 	{
 		print_coded_error("pipex", "envp", EINVAL);
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	pathname_verifier(t_command cmd)
@@ -44,5 +44,5 @@ int	pathname_verifier(t_command cmd)
 		print_custom_error("pipex", cmd.pathname, "Permission denied");
 		return (CMD_NOT_EXEC);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

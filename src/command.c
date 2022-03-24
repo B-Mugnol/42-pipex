@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 18:17:50 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/24 18:52:47 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ t_command	*fetch_commands(char *argv[], char *envp[],	t_fd_pair iof)
 	t_command	*cmd;
 
 	cmd = malloc(2 * sizeof (t_command));
-	cmd[0] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
-	cmd[1] = (t_command){.status = -1, .param = NULL, .pathname = NULL};
+	cmd[0] = (t_command){.status = EXIT_FAILURE, .param = NULL,
+		.pathname = NULL};
+	cmd[1] = (t_command){.status = EXIT_FAILURE, .param = NULL,
+		.pathname = NULL};
 	if (iof.fd[0] != -1)
 		cmd[0] = get_command(argv[2], envp);
 	if (iof.fd[1] != -1)
@@ -43,7 +45,7 @@ static t_command	get_command(char *arg, char *envp[])
 	}
 	paths = get_path_var(envp);
 	command.status = path_verifier(paths);
-	if (command.status)
+	if (command.status == EXIT_FAILURE)
 		return (command);
 	command.pathname = get_pathname(paths, command.param[0]);
 	ft_free_char_matrix(&paths);
