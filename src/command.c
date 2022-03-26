@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 18:52:47 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/25 21:43:10 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_command	get_command(char *arg, char *envp[])
 	command.param = ft_partial_split(arg, ' ', '\'');
 	if (command.param == NULL)
 	{
-		command.status = 1;
+		command.status = EXIT_FAILURE;
 		print_coded_error("pipex", "get_command", EINVAL);
 	}
 	paths = get_path_var(envp);
