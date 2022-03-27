@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:25:33 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/25 22:41:17 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/27 21:54:54 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	param_verifier(const int argc)
 {
-	if (argc < 5)//
+	if (argc < 5)
 	{
 		print_coded_error("pipex", NULL, EINVAL);
 		return (EXIT_FAILURE);
