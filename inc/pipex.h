@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/27 19:51:07 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/27 21:00:53 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,5 @@ void		print_coded_error(char *program, char *err_location, int err_code);
 void		print_custom_error(char *program, char *err_location,
 				char *err_msg);
 void		print_error_exit(char *err_location);
-
-int			recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count, char *envp[]);
 
 #endif
