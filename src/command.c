@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/25 21:42:35 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/27 22:04:04 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,6 @@ t_command	*fetch_commands(int argc, char *argv[], char *envp[],
 	i = 0;
 	while (++i < argc - 3)
 		cmd[i] = get_command(argv[i + 2], envp);
-	// if (argc == 5 && cmd[i - 1].status)
-	// {
-	// 	i = cmd[i - 1].status;
-	// 	free_command_vector(argc - 3, &cmd);
-	// 	exit(i);
-	// }
 	return (cmd);
 }
 
