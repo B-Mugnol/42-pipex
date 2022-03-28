@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/28 05:10:49 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/28 05:15:06 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ int	main(int argc, char *argv[], char *envp[])
 	if (param_verifier(argc) == EXIT_FAILURE)
 		return (status);
 	here_doc = !ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1]));
-	printf("HD: %i\n", here_doc);
 	iof = io_file_opener(argv[1], argv[argc - 1], here_doc);
 	if (here_doc)
 	{
-		printf("in here_doc\n");
 		iof.fd[0] = read_input(iof.fd[0], argv[2]);
 		cmd = fetch_commands(argc - 4, argv + 3, envp, iof);
 		status = recursive_pipex(iof, cmd, argc - 4, envp);
@@ -64,9 +62,6 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	else
 	{
-		printf("not in here_doc\n");
-		printf("argc: %i\n", argc);
-		// printf("argv[]: %i\n", argc);
 		cmd = fetch_commands(argc - 3, argv + 2, envp, iof);
 		status = recursive_pipex(iof, cmd, argc - 3, envp);
 		free_command_vector(argc - 3, &cmd);
@@ -115,10 +110,9 @@ static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
 	if (pid == -1)
 		print_error_exit("pipex: fork");
 	if (pid == 0)
-	{
 		close(channel.fd[0]);
+	if (pid == 0)
 		return (exec_cmd(r_fd, channel.fd[1], cmd[0], envp));
-	}
 	if (waitpid(pid, NULL, 0) == -1)
 		perror("pipex: waitpid");
 	close(channel.fd[1]);
