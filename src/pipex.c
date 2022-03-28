@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/27 21:51:44 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/28 04:55:36 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,34 @@ static t_fd_pair	io_file_opener(char *infilename, char *outfilename,
 static int			exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[]);
 static int			recursive_pipex(t_fd_pair channel, t_command *cmd,
 						int cmd_count, char *envp[]);
+
+static int	read_input(int i_fd, char *limiter)
+{
+	char	*temp;
+	int		pipelated[2];
+	// int		bob;
+
+	// bob = open("/home/coder/Desktop/Fase_1/pipex_bonus/bob", O_RDWR | O_TRUNC | O_CREAT, 0664);
+	temp = NULL;
+	if (pipe(pipelated))
+		print_error_exit("pipex: pipe");
+	while (1)
+	{
+		temp = get_next_line(i_fd);
+		// printf("temp: >%s<", temp);
+		if (temp && ft_strlen(temp) == ft_strlen(limiter) + 1
+			&& ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0
+			&& temp[ft_strlen(temp) - 1] == '\n')
+			break ;
+		if (temp)
+			ft_putstr_fd(temp, pipelated[1]);
+		ft_null_free((void *)&temp);
+	}
+	// close(i_fd);
+	close(pipelated[1]);
+	printf("fd1: %i\n", pipelated[0]);
+	return (pipelated[0]);
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -30,8 +58,19 @@ int	main(int argc, char *argv[], char *envp[])
 		return (status);
 	here_doc = !ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1]));
 	iof = io_file_opener(argv[1], argv[argc - 1], here_doc);
-	cmd = fetch_commands(argc, argv, envp, iof);
-	status = recursive_pipex(iof, cmd, argc - 3 - here_doc, envp);
+	if (here_doc)
+	{
+		iof.fd[0] = read_input(iof.fd[0], argv[2]);
+		cmd = fetch_commands(argc - 4, argv + 3, envp, iof);
+		// printf("gnl: >%s<", get_next_line(iof.fd[0]));
+		printf("fd2: %i\n", iof.fd[0]);
+		status = recursive_pipex(iof, cmd, argc - 4, envp);
+	}
+	else
+	{
+		cmd = fetch_commands(argc - 3, argv + 1, envp, iof);
+		status = recursive_pipex(iof, cmd, argc - 3, envp);
+	}
 	free_command_vector(argc - 3, &cmd);
 	close_fd_pair(iof);
 	return (status);
@@ -70,6 +109,7 @@ static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
 
 	o_fd = channel.fd[1];
 	r_fd = dup(channel.fd[0]);
+	printf("fd3: %i\n", r_fd);
 	close_if_valid_fd(channel.fd[0]);
 	if (pipe(channel.fd))
 		print_error_exit("pipex: pipe");
