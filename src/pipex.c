@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/28 05:15:06 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/28 18:35:26 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,7 @@ static t_fd_pair	io_file_opener(char *infilename, char *outfilename,
 static int			exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[]);
 static int			recursive_pipex(t_fd_pair channel, t_command *cmd,
 						int cmd_count, char *envp[]);
-
-static int	read_input(int i_fd, char *limiter)
-{
-	char	*temp;
-	int		magic_pipe[2];
-
-	temp = NULL;
-	if (pipe(magic_pipe))
-		print_error_exit("pipex: pipe");
-	while (1)
-	{
-		temp = get_next_line(i_fd);
-		if (temp && ft_strlen(temp) == ft_strlen(limiter) + 1
-			&& ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0
-			&& temp[ft_strlen(temp) - 1] == '\n')
-			break ;
-		if (temp)
-			ft_putstr_fd(temp, magic_pipe[1]);
-		ft_null_free((void *)&temp);
-	}
-	close(magic_pipe[1]);
-	return (magic_pipe[0]);
-}
+static int			read_input(int i_fd, char *limiter);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -92,6 +70,29 @@ static t_fd_pair	io_file_opener(char *infilename, char *outfilename,
 	if (f.fd[1] == -1)
 		print_coded_error("pipex", outfilename, EACCESS);
 	return (f);
+}
+
+static int	read_input(int i_fd, char *limiter)
+{
+	char	*temp;
+	int		magic_pipe[2];
+
+	temp = NULL;
+	if (pipe(magic_pipe))
+		print_error_exit("pipex: pipe");
+	while (1)
+	{
+		temp = get_next_line(i_fd);
+		if (temp && ft_strlen(temp) == ft_strlen(limiter) + 1
+			&& ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0
+			&& temp[ft_strlen(temp) - 1] == '\n')
+			break ;
+		if (temp)
+			ft_putstr_fd(temp, magic_pipe[1]);
+		ft_null_free((void *)&temp);
+	}
+	close(magic_pipe[1]);
+	return (magic_pipe[0]);
 }
 
 static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
