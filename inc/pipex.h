@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/27 21:00:53 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/28 03:02:10 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_fd_pair
 }	t_fd_pair;
 
 // command.c
-t_command	*fetch_commands(int argc, char *argv[], char *envp[],
-						t_fd_pair iof);
+t_command	*fetch_commands(int cmd_count, char *argv[], char *envp[],
+				t_fd_pair iof);
 
 // dismount.c
 void		close_if_valid_fd(int fd);

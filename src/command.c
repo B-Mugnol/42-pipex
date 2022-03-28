@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/27 22:04:04 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/28 03:03:23 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,24 @@ static t_command	get_command(char *arg, char *envp[]);
 static char			**get_path_var(char *envp[]);
 static char			*get_pathname(char **path, char *cmd);
 
-t_command	*fetch_commands(int argc, char *argv[], char *envp[],
+t_command	*fetch_commands(int cmd_count, char *argv[], char *envp[],
 						t_fd_pair iof)
 {
 	t_command	*cmd;
 	int			i;
 
-	cmd = malloc((argc - 3) * sizeof (t_command));
+	cmd = malloc((cmd_count) * sizeof (t_command));
 	if (!cmd)
 		print_error_exit("pipex: malloc");
 	i = -1;
-	while (++i < argc - 3)
+	while (++i < cmd_count)
 		cmd[i] = (t_command){.status = EXIT_FAILURE, .param = NULL,
 			.pathname = NULL};
 	if (iof.fd[0] != -1)
-		cmd[0] = get_command(argv[2], envp);
+		cmd[0] = get_command(argv[0], envp);
 	i = 0;
-	while (++i < argc - 3)
-		cmd[i] = get_command(argv[i + 2], envp);
+	while (++i < cmd_count)
+		cmd[i] = get_command(argv[i], envp);
 	return (cmd);
 }
 
