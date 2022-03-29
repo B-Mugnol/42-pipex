@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/28 18:35:26 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/28 21:31:08 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_command	*cmd;
 	t_fd_pair	iof;
 	int			here_doc;
+	int			cmd_count;
 	int			status;
 
 	status = EXIT_FAILURE;
@@ -33,17 +34,14 @@ int	main(int argc, char *argv[], char *envp[])
 	iof = io_file_opener(argv[1], argv[argc - 1], here_doc);
 	if (here_doc)
 	{
+		cmd_count = argc - 4;
 		iof.fd[0] = read_input(iof.fd[0], argv[2]);
-		cmd = fetch_commands(argc - 4, argv + 3, envp, iof);
-		status = recursive_pipex(iof, cmd, argc - 4, envp);
-		free_command_vector(argc - 2, &cmd);
 	}
 	else
-	{
-		cmd = fetch_commands(argc - 3, argv + 2, envp, iof);
-		status = recursive_pipex(iof, cmd, argc - 3, envp);
-		free_command_vector(argc - 3, &cmd);
-	}
+		cmd_count = argc - 3;
+	cmd = fetch_commands(cmd_count, argv + 2 + here_doc, envp, iof);
+	status = recursive_pipex(iof, cmd, cmd_count, envp);
+	free_command_vector(cmd_count, &cmd);
 	close_fd_pair(iof);
 	return (status);
 }
@@ -111,17 +109,20 @@ static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
 	if (pid == -1)
 		print_error_exit("pipex: fork");
 	if (pid == 0)
+	{
+		close(o_fd);
 		close(channel.fd[0]);
-	if (pid == 0)
 		return (exec_cmd(r_fd, channel.fd[1], cmd[0], envp));
-	if (waitpid(pid, NULL, 0) == -1)
-		perror("pipex: waitpid");
+	}
+	close(r_fd);
 	close(channel.fd[1]);
+	if (waitpid(pid, NULL, 0) == -1)
+		print_error_exit("pipex: waitpid");
 	channel.fd[1] = o_fd;
-	if (cmd_count > 2)
+	if (--cmd_count > 1)
 		return (recursive_pipex(channel, cmd + 1, cmd_count - 1, envp));
 	if (o_fd != -1)
-		return (exec_cmd(channel.fd[0], o_fd, cmd[1], envp));
+		return (exec_cmd(channel.fd[0], o_fd, cmd[0], envp));
 	return (EXIT_FAILURE);
 }
 
