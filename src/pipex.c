@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 03:35:53 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 03:44:03 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
 	if (waitpid(pid, NULL, 0) == -1)
 		print_error_exit("pipex: waitpid");
 	channel.fd[1] = o_fd;
-	if (--cmd_count > 1)
+	if (cmd_count > 2)
 		return (recursive_pipex(channel, cmd + 1, cmd_count - 1, envp));
 	if (o_fd != -1)
-		return (exec_cmd(channel.fd[0], o_fd, cmd[0], envp));
+		return (exec_cmd(channel.fd[0], o_fd, cmd[1], envp));
 	return (EXIT_FAILURE);
 }
 
