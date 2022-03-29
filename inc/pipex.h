@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/28 03:02:10 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 03:34:13 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_command	*fetch_commands(int cmd_count, char *argv[], char *envp[],
 // dismount.c
 void		close_if_valid_fd(int fd);
 void		close_fd_pair(t_fd_pair iof);
+void		close_2_fds(int fd1, int fd2);
 void		free_command(t_command *cmd);
 void		free_command_vector(int argc, t_command **cmd);
 
