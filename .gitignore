@@ -1,7 +1,7 @@
 # Ignore all
 *
 
-# 	Except these specific files:
+### Except these specific files:
 # Headers
 !inc
 !inc/*.h
