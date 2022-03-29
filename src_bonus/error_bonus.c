@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 17:19:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/17 20:46:28 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 05:01:45 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	print_coded_error(char *program, char *err_location, int err_code)
 {
@@ -47,8 +47,8 @@ void	print_custom_error(char *program, char *err_location, char *err_msg)
 	ft_putstr_fd("\n", 2);
 }
 
-void	print_error_exit(char *err_location)
+int	print_error(char *err_location)
 {
 	perror(err_location);
-	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }

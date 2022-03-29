@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.c                                          :+:      :+:    :+:   */
+/*   command_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/28 03:03:23 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 05:01:45 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static t_command	get_command(char *arg, char *envp[]);
 static char			**get_path_var(char *envp[]);
@@ -24,7 +24,7 @@ t_command	*fetch_commands(int cmd_count, char *argv[], char *envp[],
 
 	cmd = malloc((cmd_count) * sizeof (t_command));
 	if (!cmd)
-		print_error_exit("pipex: malloc");
+		return (print_error("pipex: malloc"));
 	i = -1;
 	while (++i < cmd_count)
 		cmd[i] = (t_command){.status = EXIT_FAILURE, .param = NULL,

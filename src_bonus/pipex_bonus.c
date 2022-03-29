@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 03:44:03 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 05:01:45 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static t_fd_pair	io_file_opener(char *infilename, char *outfilename,
 						int here_doc);
@@ -77,7 +77,7 @@ static int	read_input(int i_fd, char *limiter)
 
 	temp = NULL;
 	if (pipe(magic_pipe))
-		print_error_exit("pipex: pipe");
+		return (print_error("pipex: pipe"));
 	while (1)
 	{
 		temp = get_next_line(i_fd);
@@ -104,17 +104,17 @@ static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
 	r_fd = dup(channel.fd[0]);
 	close_if_valid_fd(channel.fd[0]);
 	if (pipe(channel.fd))
-		print_error_exit("pipex: pipe");
+		return (print_error("pipex: pipe"));
 	pid = fork();
 	if (pid == -1)
-		print_error_exit("pipex: fork");
+		return (print_error("pipex: fork"));
 	if (pid == 0)
 		close_2_fds(o_fd, channel.fd[0]);
 	if (pid == 0)
 		return (exec_cmd(r_fd, channel.fd[1], cmd[0], envp));
 	close_2_fds(r_fd, channel.fd[1]);
 	if (waitpid(pid, NULL, 0) == -1)
-		print_error_exit("pipex: waitpid");
+		return (print_error("pipex: waitpid"));
 	channel.fd[1] = o_fd;
 	if (cmd_count > 2)
 		return (recursive_pipex(channel, cmd + 1, cmd_count - 1, envp));
@@ -132,8 +132,7 @@ static int	exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[])
 	if (cmd.status == 0)
 	{
 		execve(cmd.pathname, cmd.param, envp);
-		perror("pipex: execve");
-		return (EXIT_FAILURE);
+		return (print_error("pipex: execve"));
 	}
 	else
 		return (cmd.status);

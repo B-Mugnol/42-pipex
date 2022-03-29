@@ -1,17 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   define.h                                           :+:      :+:    :+:   */
+/*   define_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 18:16:29 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/17 20:24:03 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 04:47:24 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEFINE_H
-# define DEFINE_H
+#ifndef DEFINE_BONUS_H
+# define DEFINE_BONUS_H
+
+typedef struct s_command
+{
+	char	*pathname;
+	char	**param;
+	int		status;
+}	t_command;
+
+typedef struct s_fd_pair
+{
+	int	fd[2];
+}	t_fd_pair;
 
 // Enviroment variable which contains path
 # define ENV_PATH_VAR	"PATH="
