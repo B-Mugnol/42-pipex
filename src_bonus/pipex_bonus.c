@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 05:01:45 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 06:18:30 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	main(int argc, char *argv[], char *envp[])
 	status = EXIT_FAILURE;
 	if (param_verifier(argc) == EXIT_FAILURE)
 		return (status);
-	here_doc = !ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1]));
+	here_doc = 0;
+	if (ft_strlen(argv[1]) == ft_strlen("here_doc"))
+		here_doc = !ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1]));
 	iof = io_file_opener(argv[1], argv[argc - 1], here_doc);
 	if (here_doc)
 	{
