@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/29 06:13:35 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/03/29 06:25:34 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ INCLUDE		:=	$(H_INCLUDE) $(LIBFT_H_INC) $(LIBFT_LIB_INC)
 B_INCLUDE	:=	$(B_H_INCLUDE) $(LIBFT_H_INC) $(LIBFT_LIB_INC)
 
 
-.PHONY: all norm clean fclean re
+.PHONY: all bonus norm clean fclean re
 
 all: $(NAME)
 
