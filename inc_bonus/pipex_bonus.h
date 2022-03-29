@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 04:53:26 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 06:21:33 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,6 @@ void		print_coded_error(char *program, char *err_location, int err_code);
 void		print_custom_error(char *program, char *err_location,
 				char *err_msg);
 int			print_error(char *err_location);
+void	print_error_terminate(char *err_location, t_fd_pair iof);
+
 #endif

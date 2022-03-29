@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 02:41:58 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 05:01:45 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 06:21:19 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_command	*fetch_commands(int cmd_count, char *argv[], char *envp[],
 
 	cmd = malloc((cmd_count) * sizeof (t_command));
 	if (!cmd)
-		return (print_error("pipex: malloc"));
+		print_error_terminate("pipex: malloc");
 	i = -1;
 	while (++i < cmd_count)
 		cmd[i] = (t_command){.status = EXIT_FAILURE, .param = NULL,

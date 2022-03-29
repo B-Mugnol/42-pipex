@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 17:19:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 05:01:45 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/29 06:21:01 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,11 @@ int	print_error(char *err_location)
 {
 	perror(err_location);
 	return (EXIT_FAILURE);
+}
+
+void	print_error_terminate(char *err_location, t_fd_pair iof)
+{
+	perror(err_location);
+	close_fd_pair(iof);
+	exit(EXIT_FAILURE);
 }
