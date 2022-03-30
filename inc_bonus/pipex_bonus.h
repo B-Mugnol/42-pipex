@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 06:25:52 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/31 01:07:05 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>	// malloc
 # include <stdio.h>		// perror
 # include <string.h>	// strerror
-# include <sys/wait.h>	// wait, waitpid
+# include <sys/wait.h>	// waitpid
 # include "libft.h"
 # include "define_bonus.h"
 

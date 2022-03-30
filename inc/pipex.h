@@ -6,19 +6,19 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:13 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/28 22:03:18 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/31 01:07:21 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include <unistd.h>	// access, dup, dup2, execve, fork, pipe
+# include <unistd.h>	// access, dup2, execve, fork, pipe
 # include <fcntl.h>		// open
 # include <stdlib.h>	// exit, malloc
 # include <stdio.h>		// perror
 # include <string.h>	// strerror
-# include <sys/wait.h>	// wait, waitpid
+# include <sys/wait.h>	//waitpid
 # include "libft.h"
 # include "define.h"
 
