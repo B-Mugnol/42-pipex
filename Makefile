@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/30 05:16:00 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/03/31 01:15:14 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,8 +92,8 @@ norm:
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	$(RM) $(OBJ_DIR)
-	$(RM) $(B_OBJ_DIR)
+	@$(RM) $(OBJ_DIR)
+	@$(RM) $(B_OBJ_DIR)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
