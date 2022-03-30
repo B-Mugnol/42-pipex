@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/29 06:18:30 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/31 01:08:01 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,17 @@ static int	read_input(int i_fd, char *limiter)
 	temp = NULL;
 	if (pipe(magic_pipe))
 		return (print_error("pipex: pipe"));
-	while (1)
+	temp = get_next_line(i_fd);
+	while (!temp || ft_strlen(temp) != ft_strlen(limiter) + 1
+		|| ft_strncmp(temp, limiter, ft_strlen(temp) - 1) != 0
+		|| temp[ft_strlen(temp) - 1] != '\n')
 	{
-		temp = get_next_line(i_fd);
-		if (temp && ft_strlen(temp) == ft_strlen(limiter) + 1
-			&& ft_strncmp(temp, limiter, ft_strlen(temp) - 1) == 0
-			&& temp[ft_strlen(temp) - 1] == '\n')
-			break ;
 		if (temp)
 			ft_putstr_fd(temp, magic_pipe[1]);
 		ft_null_free((void *)&temp);
+		temp = get_next_line(i_fd);
 	}
+	ft_null_free((void *)&temp);
 	close(magic_pipe[1]);
 	return (magic_pipe[0]);
 }
