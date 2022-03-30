@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/29 06:25:34 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/03/30 05:16:00 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ HEADER_DIR	:=	./inc
 HEADER		:=	$(addprefix $(HEADER_DIR)/, $(HEADER_FILE))
 H_INCLUDE	:=	$(foreach directory, $(HEADER_DIR), -I$(directory))
 
+
 # PIPEX BONUS
 B_SRC_DIR	:=	$(addsuffix _bonus, $(SRC_DIR))
 B_SRC_FILE	:=	$(SRC_FILE:.c=_bonus.c)
@@ -54,12 +55,11 @@ LIBFT_H_DIR		:=	$(LIBFT_DIR)/inc
 LIBFT_H_INC		:=	-I$(LIBFT_H_DIR)
 
 LIBFT_LIB		:=	$(LIBFT_DIR)/libft.a
-LIBFT_LIB_INC	:=	-L $(LIBFT_DIR) -lft
 
 
 # Inclusions:
-INCLUDE		:=	$(H_INCLUDE) $(LIBFT_H_INC) $(LIBFT_LIB_INC)
-B_INCLUDE	:=	$(B_H_INCLUDE) $(LIBFT_H_INC) $(LIBFT_LIB_INC)
+INCLUDE		:=	$(H_INCLUDE) $(LIBFT_H_INC)
+B_INCLUDE	:=	$(B_H_INCLUDE) $(LIBFT_H_INC)
 
 
 .PHONY: all bonus norm clean fclean re
@@ -67,12 +67,12 @@ B_INCLUDE	:=	$(B_H_INCLUDE) $(LIBFT_H_INC) $(LIBFT_LIB_INC)
 all: $(NAME)
 
 $(NAME): $(LIBFT_LIB) $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(INCLUDE)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT_LIB) $(INCLUDE)
 
 bonus: $(B_NAME)
 
 $(B_NAME): $(LIBFT_LIB) $(B_OBJ)
-	$(CC) $(CFLAGS) -o $@ $(B_OBJ) $(B_INCLUDE)
+	$(CC) $(CFLAGS) -o $@ $(B_OBJ) $(LIBFT_LIB) $(B_INCLUDE)
 
 $(OBJ): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE)
@@ -91,6 +91,7 @@ norm:
 	@norminette $(SRC) $(B_SRC) $(HEADER) $(B_HEADER) | grep "Error" | cat
 
 clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(OBJ_DIR)
 	$(RM) $(B_OBJ_DIR)
 
