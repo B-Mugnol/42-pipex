@@ -5,14 +5,10 @@
 # Headers
 !inc
 !inc/*.h
-!inc_bonus
-!inc_bonus/*.h
 
 # Source
 !src
 !src/*.c
-!src_bonus
-!src_bonus/*.c
 
 # Makefile
 !Makefile

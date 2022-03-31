@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 01:00:12 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/24 02:00:23 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/03/31 01:30:52 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	close_fd_pair(t_fd_pair fd_pair)
 {
 	close_if_valid_fd(fd_pair.fd[0]);
 	close_if_valid_fd(fd_pair.fd[1]);
+}
+
+void	close_2_fds(int fd1, int fd2)
+{
+	close_if_valid_fd(fd1);
+	close_if_valid_fd(fd2);
 }
 
 void	free_command(t_command *cmd)
