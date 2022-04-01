@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/03/31 01:36:03 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/04/01 04:45:03 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,16 @@ CFLAGS	:=	-Wall -Wextra -Werror
 RM		:=	rm -rf
 
 # PIPEX
-SRC_DIR		:=	./src
+SRC_DIR		:=	src
 SRC_FILE	:=	pipex.c command.c error.c verifier.c dismount.c
 SRC			:=	$(addprefix $(SRC_DIR)/, $(SRC_FILE))
 
-OBJ_DIR		:=	./obj
+OBJ_DIR		:=	obj
 OBJ_FILE	:=	$(SRC_FILE:.c=.o)
 OBJ			:=	$(addprefix $(OBJ_DIR)/, $(OBJ_FILE))
 
+HEADER_DIR	:=	inc
 HEADER_FILE	:=	pipex.h define.h
-HEADER_DIR	:=	./inc
 HEADER		:=	$(addprefix $(HEADER_DIR)/, $(HEADER_FILE))
 H_INCLUDE	:=	$(foreach directory, $(HEADER_DIR), -I$(directory))
 
