@@ -6,7 +6,7 @@
 /*   By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:14:40 by bmugnol-          #+#    #+#             */
-/*   Updated: 2022/03/31 01:30:52 by bmugnol-         ###   ########.fr       */
+/*   Updated: 2022/04/22 03:16:57 by bmugnol-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ static int	recursive_pipex(t_fd_pair channel, t_command *cmd, int cmd_count,
 
 static int	exec_cmd(int r_fd, int w_fd, t_command cmd, char *envp[])
 {
-	dup2(r_fd, STDIN_FILENO);
+	if (cmd.status == EXIT_SUCCESS)
+		dup2(r_fd, STDIN_FILENO);
 	close_if_valid_fd(r_fd);
-	dup2(w_fd, STDOUT_FILENO);
+	if (cmd.status == EXIT_SUCCESS)
+		dup2(w_fd, STDOUT_FILENO);
 	close_if_valid_fd(w_fd);
-	if (cmd.status == 0)
+	if (cmd.status == EXIT_FAILURE)
 	{
 		execve(cmd.pathname, cmd.param, envp);
 		return (print_error("pipex: execve"));
