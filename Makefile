@@ -6,7 +6,7 @@
 #    By: bmugnol- <bmugnol-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:11:32 by bmugnol-          #+#    #+#              #
-#    Updated: 2022/04/01 04:45:03 by bmugnol-         ###   ########.fr        #
+#    Updated: 2022/04/06 20:43:16 by bmugnol-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ $(OBJ_DIR):
 	@mkdir -p $@
 
 $(LIBFT_LIB):
-	$(MAKE) -C $(LIBFT_DIR) basic
+	$(MAKE) -C $(LIBFT_DIR)
 
 norm:
 	@$(MAKE) -C $(LIBFT_DIR) norm
